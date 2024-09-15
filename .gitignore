@@ -1,0 +1,11 @@
+/node_modules
+/dist
+
+/logs
+/temp
+/tmp
+/.vscode/
+
+*.log
+*.tmp
+*.bak

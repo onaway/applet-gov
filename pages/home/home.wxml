@@ -1,0 +1,67 @@
+<!--pages/home/home.wxml-->
+<view class="home">
+  <view class="top">
+    <image class="top-img" src="/images/top-bg.png" mode="widthFix"/>
+    <view class="info" wx:if="{{!hasUserInfo}}" bind:tap="toUserInfo">
+      <image src="/images/avatar.png" mode="aspectFill"/>
+      <text>点击登录</text>
+    </view>
+    <view class="info" wx:else>
+      <image src="{{userInfo.avatarUrl}}" mode="cover"/>
+      <text>{{userInfo.nickName}}</text>
+    </view>
+    <view class="main-menu">
+      <view class="menu-item v-center" data-type="appeal" bind:tap="toClassify">
+        <image src="/images/submit.png" mode="widthFix"/>
+        <text>诉求提交</text>
+      </view>
+      <view class="menu-item v-center" data-type="suggestion" bind:tap="toClassify">
+        <image src="/images/suggestion.png" mode="widthFix"/>
+        <text>意见建议</text>
+      </view>
+    </view>
+  </view>
+  <view class="banner">
+    <swiper
+      indicator-dots="{{false}}"
+      autoplay
+      circular
+      interval="{{3000}}"
+      bindchange="onSwiperChange"
+    >
+      <block wx:for="{{bannerList}}" wx:key="swiperId">
+        <swiper-item>
+          <image
+            class="banner-img"
+            src="{{item.swiperUrl}}"
+            mode="aspectFill"
+            data-url="{{item.linkUrl}}"
+            bind:tap="toBannerDetail"
+          />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="custom-indicator">
+      <view
+        wx:for="{{bannerList}}"
+        wx:key="index"
+        class="indicator-dot {{currentIndex === index ? 'active' : ''}}"
+      ></view>
+    </view>
+  </view>
+  <view class="services">
+    <view class="services-title">主题服务</view>
+    <view class="services-menu">
+      <block wx:for="{{serviceList}}" wx:key="typeId">
+        <view
+          class="service-item"
+          data-id="{{item.typeId}}"
+          bind:tap="toArticleList"
+        >
+          <image src="{{ item.typeLogo }}" mode="aspectFill"/>
+          <text>{{ item.typeName }}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

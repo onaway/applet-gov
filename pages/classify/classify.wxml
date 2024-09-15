@@ -1,0 +1,16 @@
+<!--pages/appeal-classify/appeal-classify.wxml-->
+<view class="classify">
+  <view class="title">请选择要提交的{{text}}类型</view>
+  <view class="appeal-menu">
+    <block wx:for="{{appealTypeList}}" wx:key="typeId">
+      <view
+        class="appeal-item"
+        data-id="{{item.typeId}}"
+        bind:tap="toAppealSubmit"
+      >
+        <image src="{{ item.typeLogo }}" mode="aspectFill"/>
+        <text>{{ item.typeName }}</text>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,78 @@
+/* pages/appeal-list/appeal-list.wxss */
+.appeal-list {
+  min-height: 100vh;
+}
+
+.list {
+  margin-top: 24rpx;
+}
+
+.list-item {
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.list-item image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.title {
+  max-width: 614rpx;
+  font-size: 32rpx;
+  line-height: 38rpx;
+}
+
+.date {
+  color: #92969e;
+  line-height: 32rpx;
+  margin-top: 8rpx;
+}
+
+.loading {
+  height: 100vh;
+}
+
+.loading image {
+  width: 80rpx;
+  height: 80rpx;
+  animation: loading 800ms linear infinite;
+}
+
+.has-more {
+  height: 112rpx;
+}
+
+.has-more image {
+  width: 50rpx;
+  height: 50rpx;
+  animation: loading 800ms linear infinite;
+}
+
+.has-more text {
+  color: #92969e;
+  line-height: 40px;
+  margin-left: 16rpx;
+}
+
+.end {
+  height: 112rpx;
+  color: #92969e;
+}
+
+.no-data {
+  flex-direction: column;
+  height: 100vh;
+}
+
+.no-data image {
+  width: 400rpx;
+  height: 240rpx;
+}
+
+.no-data text {
+  color: #61656d;
+  line-height: 32rpx;
+  margin-top: 24rpx;
+}

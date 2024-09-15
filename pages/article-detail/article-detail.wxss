@@ -1,0 +1,10 @@
+/* pages/article-detail/article-detail.wxss */
+.article-detail {
+  padding: 32rpx;
+}
+
+.article-detail .pic {
+  width: 100%;
+  height: 400rpx;
+  object-fit: contain;
+}

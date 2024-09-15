@@ -1,0 +1,57 @@
+/* pages/userInfo/userInfo.wxss */
+.avatar-wrap {
+  margin: 80rpx auto;
+}
+
+.avatar-wrap button {
+  padding: 0;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background-color: #fff;
+}
+
+.avatar-text {
+  color: #92969e;
+  text-align: center;
+  line-height: 32rpx;
+  margin-top: 16rpx;
+}
+
+.avatar-wrap button:after {
+  content: none;
+  border: none;
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+}
+
+.input-wrap {
+  line-height: 32rpx;
+  padding: 32rpx;
+  border-top: 1px solid #e4e6eb;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.input-wrap text {
+  color: #92969e;
+  margin-right: 80rpx;
+}
+
+.input-wrap input {
+  flex: 1;
+}
+
+.btn {
+  font-size: 32rpx;
+  color: #fff;
+  line-height: 32rpx;
+  padding: 32rpx 0;
+  margin: 80rpx 32rpx;
+  background-color: #4c94fe;
+  border-radius: 44rpx;
+}

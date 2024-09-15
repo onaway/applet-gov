@@ -1,0 +1,90 @@
+<!--pages/appeal-submit/appeal-submit.wxml-->
+<view class="appeal-submit">
+  <view class="form">
+    <!-- 自动回复内容 -->
+    <block wx:for="{{autoList}}" wx:key="index">
+      <view class="myself" wx:if="{{item.user === 'myself'}}">
+        <view class="myself-item">
+          <text>{{item.content}}</text>
+          <image class="avatar" src="{{item.avatar}}" mode="widthFix"/>
+        </view>
+        <view class="time myself-time">{{item.time}}</view>
+      </view>
+      <view class="other" wx:elif="{{item.user === 'robot'}}">
+        <view class="other-item">
+          <image class="avatar" src="{{item.avatar}}" mode="widthFix"/>
+          <text>{{item.content}}</text>
+        </view>
+        <view class="time other-time">{{item.time}}</view>
+      </view>
+      <view class="customer-service" wx:else>已转人工客服</view>
+    </block>
+    <!-- 诉求和意见内容 -->
+    <block wx:for="{{appealList}}" wx:key="order">
+      <view class="myself" wx:if="{{item.userId === userId}}">
+        <view class="myself-item">
+          <image
+            wx:if="{{item.hasPic}}"
+            class="pic"
+            src="{{item.content}}"
+            mode="aspectFill"
+            data-src="{{item.content}}"
+            bind:tap="previewImage"
+          />
+          <text wx:else>{{item.content}}</text>
+          <image class="avatar" src="{{item.avatar}}" mode="widthFix"/>
+        </view>
+        <view class="time myself-time">{{item.time}}</view>
+      </view>
+      <view class="other" wx:else>
+        <view class="other-item">
+          <image class="avatar" src="{{item.avatar}}" mode="widthFix"/>
+          <image
+            wx:if="{{item.hasPic}}"
+            class="pic"
+            src="{{item.content}}"
+            mode="aspectFill"
+            data-src="{{item.content}}"
+            bind:tap="previewImage"
+          />
+          <text wx:else>{{item.content}}</text>
+        </view>
+        <view class="time other-time">{{item.time}}</view>
+      </view>
+    </block>
+  </view>
+  <view class="footer" style="bottom: {{keyboardHeight}}px;">
+    <view class="v-center">
+      <view
+        class="service btn hv-center"
+        wx:if="{{!isHuman && type === 'appeal'}}"
+        bind:tap="toHuman"
+      >
+        <image src="/images/service.png" mode="widthFix"/>
+      </view>
+      <view class="input-wrap v-center">
+        <!-- adjust-position="{{false}}" -->
+        <!-- bindfocus="onFocus" -->
+        <!-- bindkeyboardheightchange="getKeyBoardHeight" -->
+        <input
+          type="text"
+          value="{{inputContent}}"
+          adjust-position="{{false}}"
+          placeholder="{{placeholder}}"
+          bindinput="onChange"
+          bindfocus="onFocus"
+          bindkeyboardheightchange="getKeyBoardHeight"
+        />
+        <image
+          wx:if="{{isShowPic}}"
+          src="/images/pic.png"
+          mode="widthFix"
+          bind:tap="onUpload"
+        />
+      </view>
+      <view class="btn hv-center" bind:tap="send">
+        <image src="/images/send.png" mode="widthFix"/>
+      </view>
+    </view>
+  </view>
+</view>

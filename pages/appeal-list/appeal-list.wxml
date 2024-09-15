@@ -1,0 +1,26 @@
+<!--pages/appeal-list/appeal-list.wxml-->
+<view class="appeal-list">
+  <view class="loading hv-center" wx:if="{{loading}}">
+    <image src="/images/loading.png" mode="widthFix"/>
+  </view>
+  <view class="list" wx:if="{{list.length}}">
+    <block wx:for="{{list}}" wx:key="id">
+      <view class="list-item v-center" bind:tap="toAppealDetail">
+        <view>
+          <view class="title ellipsis">{{item.title}}</view>
+          <view class="date">{{item.date}}</view>
+        </view>
+        <image src="/images/right-grey.png" mode="widthFix"/>
+      </view>
+    </block>
+    <view class="has-more hv-center" wx:if="{{hasMore}}">
+      <image src="/images/loading.png" mode="widthFix"/>
+      <text>加载中</text>
+    </view>
+    <view class="end hv-center" wx:if="{{isEnd}}">已经到底了</view>
+  </view>
+  <view class="no-data hv-center" wx:else>
+    <image src="/images/no-data.png" mode="widthFix"/>
+    <text>无诉求数据</text>
+  </view>
+</view>

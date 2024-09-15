@@ -1,0 +1,38 @@
+view, text {
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #191f2b;
+  font-family: 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;  
+}
+
+.flex {
+  display: flex;
+}
+
+.v-center {
+  display: flex;
+  align-items: center;
+}
+
+.h-center {
+  display: flex;
+  justify-content: center;
+}
+
+.hv-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
+}

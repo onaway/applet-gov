@@ -1,0 +1,42 @@
+{
+  "pages":[
+    "pages/home/home",
+    "pages/my/my",
+    "pages/webview/webview",
+    "pages/userInfo/userInfo",
+    "pages/classify/classify",
+    "pages/appeal-submit/appeal-submit",
+    "pages/appeal-list/appeal-list",
+    "pages/appeal-detail/appeal-detail",
+    "pages/article-list/article-list",
+    "pages/article-detail/article-detail"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "selectedColor": "#0081ff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/home.png",  
+        "selectedIconPath": "images/home-light.png" 
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "images/my.png",  
+        "selectedIconPath": "images/my-light.png" 
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}

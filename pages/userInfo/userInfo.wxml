@@ -1,0 +1,19 @@
+<!--pages/userInfo/userInfo.wxml-->
+<view>
+  <view class="avatar-wrap">
+    <button open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{avatarUrl}}"></image>
+    </button>
+    <view class="avatar-text">头像</view>
+  </view>
+  <view class="input-wrap v-center">
+    <text>昵称</text>
+    <input
+      type="nickname"
+      class="weui-input"
+      placeholder="请输入昵称"
+      bindblur="getNickName"
+    />
+  </view>
+  <view class="btn hv-center" bind:tap="confirm">确认</view>
+</view>

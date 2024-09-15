@@ -1,0 +1,45 @@
+<!--pages/article-list/article-list.wxml-->
+<view class="article-list">
+  <view class="title">
+    <image src="/images/article.png" mode="widthFix"/>
+    <text class="hv-center">社会保障</text>
+  </view>
+  <view class="search v-center">
+    <image src="/images/search.png" mode="widthFix" bind:tap="handleSearch"/>
+    <input
+      type="text"
+      value="{{searchContnet}}"
+      placeholder="请输入你想找的内容"
+      confirm-type="search"
+      bindinput="onChange"
+      bindconfirm="handleSearch"
+    />
+  </view>
+  <view class="loading hv-center" wx:if="{{loading}}">
+    <image src="/images/loading.png" mode="widthFix"/>
+  </view>
+  <view class="list" wx:if="{{list.length}}">
+    <block wx:for="{{list}}" wx:key="articleId">
+      <view
+        class="list-item"
+        data-content="{{item.content}}"
+        bind:tap="toArticleDetail"
+      >
+        {{item.tittle}}
+      </view>
+    </block>
+    <view class="has-more hv-center" wx:if="{{hasMore}}">
+      <image src="/images/loading.png" mode="widthFix"/>
+      <text>加载中</text>
+    </view>
+    <view class="end hv-center" wx:if="{{isEnd}}">已经到底了~</view>
+  </view>
+  <view class="no-data v-center" wx:elif="{{!list.length && isSearch}}">
+    <image src="/images/no-data.png" mode="widthFix"/>
+    <text>无搜索结果</text>
+  </view>
+  <view class="btn v-center" bind:tap="toAppealSubmit">
+    <image src="/images/edit.png" mode="widthFix"/>
+    <text>诉求提交</text>
+  </view>
+</view>

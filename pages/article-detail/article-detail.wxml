@@ -1,0 +1,4 @@
+<!--pages/article-detail/article-detail.wxml-->
+<view class="article-detail">
+  <rich-text nodes="{{htmlContent}}"></rich-text>
+</view>

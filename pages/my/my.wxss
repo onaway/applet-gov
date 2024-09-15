@@ -1,0 +1,56 @@
+/* pages/my/my.wxss */
+.my {
+  min-height: 100vh;
+  background: #f9f9f9;
+}
+
+.top {
+  height: 424rpx;
+  background: linear-gradient(180deg,#d4eafe, #f9f9f9 100%);
+}
+
+.info {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 32rpx;
+}
+
+.info image {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+}
+
+.info text {
+  font-size: 36rpx;
+  line-height: 42rpx;
+  margin-left: 24rpx;
+}
+
+.appeal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 112rpx;
+  margin: 52rpx 32rpx 0;
+  padding: 0 32rpx;
+  background: #ffffff;
+  border-radius: 24rpx;
+  box-shadow: 0 4rpx 16rpx 0 rgba(25,31,43,0.06); 
+}
+
+.appeal text {
+  font-size: 32rpx;
+  line-height: 38rpx;
+  margin-left: 8rpx;
+}
+
+.icon-appeal {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+.icon-right {
+  width: 48rpx;
+  height: 48rpx;
+}

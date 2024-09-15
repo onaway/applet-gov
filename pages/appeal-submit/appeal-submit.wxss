@@ -1,0 +1,156 @@
+/* pages/appeal-submit/appeal-submit.wxss */
+.appeal-submit {
+  height: 100vh;
+}
+
+.form {
+  /* flex: 1; */
+  overflow: auto;
+  height: calc(100vh - 64px);
+  padding: 32rpx 32rpx 0;
+  /* padding-bottom: 32rpx; */
+  /* padding-bottom: 128rpx; */
+}
+
+.myself, .other {
+  margin-bottom: 42rpx;
+}
+
+.other-item {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.myself-item {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+
+.pic {
+  width: 260rpx;
+  height: 260rpx;
+}
+
+.myself .pic {
+  margin-right: 32rpx;
+}
+
+.other .pic {
+  margin-left: 32rpx;
+}
+
+.myself text, .other text {
+  position: relative;
+  max-width: 480rpx;
+  word-break: break-all;
+  line-height: 36rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+}
+
+.other text {
+  color: #000;
+  margin-left: 32rpx;
+  background: #ecf5ff;
+}
+
+.myself text {
+  color: #fff;
+  margin-right: 32rpx;
+  background: #4c94fe;
+}
+
+.myself text::after, .other text::before {
+  position: absolute;
+  top: 26rpx;
+  width: 0;
+  height: 0;
+  border-top: 12rpx solid transparent;
+  border-bottom: 12rpx solid transparent;
+  content: '';
+}
+
+.other text::before {
+  left: -16rpx;
+  border-right: 16rpx solid #ecf5ff;
+}
+
+.myself text::after {
+  right: -16rpx;
+  border-left: 16rpx solid #4c94fe;
+}
+
+.time {
+  font-size: 24rpx;
+  color: #92969e;
+  line-height: 28rpx;
+  margin-top: 8rpx;
+}
+
+.other-time {
+  margin-left: 112rpx;
+}
+
+.myself-time {
+  text-align: right;
+  margin-right: 112rpx;
+}
+
+.customer-service {
+  color: #92969e;
+  text-align: center;
+  line-height: 32rpx;
+  padding-top: 6rpx;
+  margin-bottom: 34rpx;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* height: 96rpx; */
+  height: 128rpx;
+  padding: 0 32rpx;
+  background: #fff;
+}
+
+.input-wrap {
+  flex: 1;
+  height: 96rpx;
+  padding: 0 24rpx;
+  margin-right: 24rpx;
+  border: 1px solid #d0d4dc;
+  border-radius: 16rpx;
+}
+
+.input-wrap input {
+  width: 100%;
+}
+
+.input-wrap image {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.btn {
+  width: 80rpx;
+  height: 80rpx;
+  background: #4c94fe;
+  border-radius: 50%;
+}
+
+.btn image {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.service {
+  margin-right: 24rpx;
+}
