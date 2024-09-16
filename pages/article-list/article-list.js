@@ -5,7 +5,7 @@ const { queryArticleList } = require('../../api/article-list')
 Page({
   data: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     typeId: '',
     list: [],
     loading: true,
@@ -85,7 +85,7 @@ Page({
     queryArticleList(params).then(res => {
       console.log('queryArticleList res: ', res)
 
-      const { rows } = res
+      const { rows, total } = res
 
       // 更新数据
       this.setData({
@@ -95,7 +95,7 @@ Page({
       })
       console.log('list: ', this.data.list)
 
-      if (rows.length < pageSize) {
+      if (pageNum * pageSize >= total) {
         this.setData({
           hasMore: false,
           isEnd: true

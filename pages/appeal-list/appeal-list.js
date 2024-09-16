@@ -15,9 +15,9 @@ Page({
     this.loadMore()
   },
   toAppealDetail(e) {
-    const { content, id } = e.currentTarget.dataset
+    const { content, id, status } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/appeal-submit/appeal-submit?type=appeal&typeId=${id}&content=${content}`,
+      url: `/pages/appeal-submit/appeal-submit?type=appeal&typeId=${id}&content=${content}&status=${status}`,
     })
   },
   onReachBottom() {
@@ -41,7 +41,7 @@ Page({
       .then(res => {
         console.log('queryAppealList res: ', res)
 
-        const { rows } = res
+        const { rows, total } = res
 
         // 更新数据
         this.setData({
@@ -50,7 +50,7 @@ Page({
           loading: false
         })
 
-        if (rows.length < pageSize) {
+        if (pageSize * pageNum >= total) {
           this.setData({
             hasMore: false,
             isEnd: true

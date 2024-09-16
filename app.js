@@ -1,5 +1,4 @@
 // app.js
-// token 过期返回 401，需要重新登录再调用接口
 // 主题服务和诉求分类图片懒加载
 const { login } = require('./api/login')
 

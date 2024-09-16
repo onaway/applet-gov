@@ -1,5 +1,6 @@
 // pages/userInfo/userInfo.js
 const app = getApp()
+const { getBaseUrl } = require('../../utils/baseUrl')
 
 Page({
   data: {
@@ -8,9 +9,23 @@ Page({
   },
   onChooseAvatar(e) {
     const { avatarUrl } = e.detail
-    console.log('avatarUrl: ', avatarUrl)
-    this.setData({
-      avatarUrl,
+    const baseUrl = getBaseUrl()
+
+    wx.uploadFile({
+      filePath: avatarUrl,
+      name: 'file',
+      url: baseUrl + '/common/uploadMinio',
+      success: res => {
+        const data = JSON.parse(res.data)
+        console.log('data :', data)
+
+        if (data.code === 200) {
+          const { url } = data
+          this.setData({
+            avatarUrl: url,
+          })
+        }
+      }
     })
   },
   getNickName(e) {
@@ -40,8 +55,7 @@ Page({
   onUnload() {
     const { avatarUrl, nickName } = this.data
     app.globalData.userInfo = {
-      // avatarUrl,
-      avatarUrl: 'https://app-oss.byte-app.com/common/platform/verify/user/logo/1000434393060675584/a75f94330f0f482b87b5c162afefa141.jpeg',
+      avatarUrl,
       nickName
     }
     app.globalData.firstLogin = true

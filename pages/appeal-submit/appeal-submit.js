@@ -10,6 +10,7 @@ Page({
   data: {
     typeId: '',
     type: 'appeal',
+    status: '',
     userId: null,
     order: 0, // 排序
     placeholder: '请输入诉求',
@@ -27,25 +28,36 @@ Page({
 
     this.initTitle(options)
 
-    this.handleAppealList()
+    if (options.content) {
+      this.initAppealList(options.content)
+    }
   },
   initData(options) {
     console.log('options: ', options)
-    const userId = wx.getStorageSync('userId')
-    console.log('userId :', userId, typeof userId, 'u' + userId)
+    const { type, typeId, content, status } = options
     const { nickName, avatarUrl } = app.globalData.userInfo
-    this.setData({
-      userId,
-      type: options.type,
-      typeId: options.typeId,
-      isShowPic: options.type === 'suggestion',
-      userList: {
+    const userId = wx.getStorageSync('userId')
+    let userList = {}
+    console.log('userId :', userId, typeof userId, 'u' + userId)
+    if (content) {
+      userList = JSON.parse(content).userList
+    } else {
+      userList = {
         ['u'+userId]: {
           userId: userId, nickName, avatar: avatarUrl
         }
       }
+    }
+    console.log('userList :', userList)
+    this.setData({
+      userId,
+      type,
+      typeId,
+      userList,
+      status: status ? status : '',
+      isShowPic: type === 'suggestion' || !!content,
+      isHuman: !!content
     })
-    console.log('this.data.userList :', this.data.userList)
   },
   initTitle(options) {
     if (options.type === 'suggestion') {
@@ -61,8 +73,9 @@ Page({
       })
     }
   },
-  handleAppealList() {
-    const { appealList, userList } = this.data
+  initAppealList(content) {
+    const appealList = JSON.parse(content).content
+    const { userList } = this.data
     const list = appealList.map(item => {
       if (containsImageLink(item.content)) {
         item.hasPic = true
@@ -81,7 +94,7 @@ Page({
     this.setData({
       appealList: list
     })
-    // console.log('this.data.appealList :', this.data.appealList)
+    console.log('this.data.appealList :', this.data.appealList)
   },
   // 获取接口参数 content 中的 content
   getContentParams() {
@@ -322,8 +335,8 @@ Page({
 
     this.updateAppealRequest()
   },
-  updateAppealRequest() {
-    const { type, appealId, userList } = this.data
+  updateAppealRequest(status) {
+    const { appealId, userList } = this.data
     const tmpContent = this.getContentParams()
 
     const params = {
@@ -332,7 +345,7 @@ Page({
         userList,
         content: tmpContent
       }),
-      appealStatus: type === 'appeal' ? '0' : '2'
+      appealStatus: status ? status : 0
     }
     console.log('updateAppeal params: ', params)
 
@@ -345,5 +358,10 @@ Page({
         })
       }
     })
+  },
+  onUnload() {
+    if (this.data.type === 'suggestion') {
+      this.updateAppealRequest(2)
+    }
   }
 })
