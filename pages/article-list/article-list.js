@@ -56,7 +56,7 @@ Page({
     } else {
       const typeId = this.data.list[0].typeId
       wx.navigateTo({
-        url: `/pages/appeal-submit/appeal-submit?typeId=${typeId}`,
+        url: `/pages/appeal-submit/appeal-submit?typeId=${typeId}&type=appeal`,
       })
     }
   },

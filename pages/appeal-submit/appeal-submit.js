@@ -4,6 +4,7 @@ const { getBaseUrl } = require('../../utils/baseUrl')
 const { formatTime, containsImageLink } = require('../../utils/util')
 const { autoReply, addAppeal, updateAppeal } = require('../../api/appeal-submit')
 let oldContent = '' // 清空输入框之前输入的值
+let cacheFiles = [] // 上传接口报错401保存的获取图片的数据
 
 Page({
   data: {
@@ -12,12 +13,9 @@ Page({
     userId: null,
     order: 0, // 排序
     placeholder: '请输入诉求',
+    appealId: null, // 诉求id
     autoList: [], // 转人工前的自动回复列表
-    appealList: [
-      // {order:"1",userId:110,time:"2024-09-06 17:17:22",content: "123456"},
-      // {order:"2",userId:101,time:"2024-09-06 17:17:22",content: "https://community-images-cdn.hdyx.cn/community/20240701/101220399616377.jpg"},
-      // {order:"3",userId:110,time:"2024-09-06 17:17:22",content: "https://community-images-cdn.hdyx.cn/community/20240912/164702092871768.jpg"},
-    ], // 诉求或意见列表
+    appealList: [], // 诉求或意见列表
     userList: {}, // 存在一条，两条，多条
     inputContent: '',
     isShowPic: false, // 是否显示上传图片icon
@@ -83,12 +81,11 @@ Page({
     this.setData({
       appealList: list
     })
-    console.log('this.data.appealList :', this.data.appealList)
+    // console.log('this.data.appealList :', this.data.appealList)
   },
   // 获取接口参数 content 中的 content
   getContentParams() {
-    const { appealList } = this.data
-    const copyList = JSON.parse(JSON.stringify(appealList))
+    const copyList = JSON.parse(JSON.stringify(this.data.appealList))
     return copyList.map(item => {
       delete item.hasPic
       delete item.avatar
@@ -118,17 +115,12 @@ Page({
   },
   onFocus() {
     wx.onKeyboardHeightChange((res) => {
-      console.log('res: ', res)
-      // wx.showToast({
-      //   title: JSON.stringify(res)
-      // })
       this.setData({
         keyboardHeight: res.height || 0
       })
     })
   },
   getKeyBoardHeight(e){
-    console.log('e.detail.height: ', e.detail.height)
     const height = e.detail.height || 0
     this.setData({
       keyboardHeight: height
@@ -140,6 +132,25 @@ Page({
       inputContent: value
     })
   },
+  // 上传图片或者点击发送按钮更新诉求列表
+  updateAppealList(actionType, actionContnt) {
+    const { userId, appealList } = this.data
+    const myselfObj = {
+      order: appealList.length + 1 + '',
+      userId,
+      content: actionContnt,
+      time: formatTime(new Date()),
+      avatar: app.globalData.userInfo.avatarUrl,
+      hasPic: actionType === 'picture' ? true : false
+    }
+
+    appealList.push(myselfObj)
+
+    this.setData({
+      appealList
+    })
+    console.log('appealList: ', this.data.appealList)
+  },
   onUpload() {
     wx.chooseMedia({
       count: 9,
@@ -147,6 +158,7 @@ Page({
       sourceType: ['album'],
       success: res => {
         console.log('chooseMedia res: ', res)
+        cacheFiles = res.tempFiles
         this.uploadImg(res.tempFiles)
       }
     })
@@ -158,20 +170,33 @@ Page({
       Authorization: `Bearer ${token}`
     }
     tempFiles.forEach(file => {
-      console.log('file :', file)
       wx.uploadFile({
         filePath: file.tempFilePath,
         header,
         name: 'file',
         url: baseUrl + '/common/uploadMinio',
         success: res => {
-          console.log('uploadFile res: ', res)
-          console.log('res.data :', JSON.parse(res.data))
-          const { url } = JSON.parse(res.data)
-          if (this.data.type === 'appeal') {
-            
-          } else {
+          const data = JSON.parse(res.data)
+          console.log('data :', data)
 
+          if (data.code === 401) {
+            app.toLogin().then(() => {
+              this.uploadImg(cacheFiles)
+            })
+            return 
+          }
+
+          if (data.code === 200) {
+            const { url } = data
+            const { appealList } = this.data
+            if (!appealList.length ) {
+              this.addAppealSubmit('picture', url)
+              return
+            }
+            if (appealList.length ) {
+              this.updateAppealSubmit('picture', url)
+              return
+            }
           }
         }
       })
@@ -182,18 +207,30 @@ Page({
     const { inputContent, type, isHuman, appealList } = this.data
     oldContent = inputContent
 
+    if (!inputContent) {
+      const con = type === 'appeal' ? '诉求' : '意见建议'
+      wx.showToast({
+        title: `请输入${con}`,
+        icon: 'none'
+      })
+      return
+    }
+
     this.setData({
       inputContent: ''
     })
 
     if (type === 'appeal' && !isHuman) {
       this.robotReply()
+      return
     }
-    if (type === 'appeal' && isHuman && !appealList.length ) {
-      this.addAppealSubmit()
+    if (!appealList.length ) {
+      this.addAppealSubmit('text', oldContent)
+      return
     }
-    if (type === 'appeal' && isHuman && appealList.length ) {
-      this.updateAppealSubmit()
+    if (appealList.length ) {
+      this.updateAppealSubmit('text', oldContent)
+      return
     }
   },
   robotReply() {
@@ -211,6 +248,9 @@ Page({
       autoList
     })
 
+    this.autoReplyRequest()
+  },
+  autoReplyRequest() {
     const params = {
       pageSize: 1,
       status: '0',
@@ -234,29 +274,19 @@ Page({
     }).catch(err => {
       if (err.code === 401) {
         app.toLogin().then(() => {
-          this.robotReply()
+          this.autoReplyRequest()
         })
       }
     })
   },
-  // 新增诉求
-  addAppealSubmit() {
-    const { userId, typeId, userList, appealList } = this.data
-    const myselfObj = {
-      order: '1',
-      userId,
-      avatar: app.globalData.userInfo.avatarUrl,
-      content: oldContent,
-      hasPic: false,
-      time: formatTime(new Date())
-    }
+  // 新增诉求或意见
+  addAppealSubmit(actionType, actionContnt) {
+    this.updateAppealList(actionType, actionContnt)
 
-    appealList.push(myselfObj)
-
-    this.setData({
-      appealList
-    })
-
+    this.addAppealRequest()
+  },
+  addAppealRequest() {
+    const { type, typeId, userList } = this.data
     const tmpContent = this.getContentParams()
 
     const params = {
@@ -268,14 +298,52 @@ Page({
       orderNum: 1,
       visible: 'N',
       appealStatus: '0',
-      appealType: '0',
+      appealType: type === 'appeal' ? '0' : '1',
       userId: this.data.userId
     }
+    console.log('addAppeal params: ', params)
 
     addAppeal(params).then(res => {
       console.log('addAppeal res :', res)
+      this.setData({
+        appealId: res.data.appealId
+      })
+    }).catch(err => {
+      if (err.code === 401) {
+        app.toLogin().then(() => {
+          this.addAppealRequest()
+        })
+      }
     })
   },
-  // 更新诉求
-  updateAppealSubmit() {},
+  // 更新诉求或意见
+  updateAppealSubmit(actionType, actionContnt) {
+    this.updateAppealList(actionType, actionContnt)
+
+    this.updateAppealRequest()
+  },
+  updateAppealRequest() {
+    const { type, appealId, userList } = this.data
+    const tmpContent = this.getContentParams()
+
+    const params = {
+      appealId,
+      content: JSON.stringify({
+        userList,
+        content: tmpContent
+      }),
+      appealStatus: type === 'appeal' ? '0' : '2'
+    }
+    console.log('updateAppeal params: ', params)
+
+    updateAppeal(params).then(res => {
+      console.log('addAppeal res :', res)
+    }).catch(err => {
+      if (err.code === 401) {
+        app.toLogin().then(() => {
+          this.updateAppealRequest()
+        })
+      }
+    })
+  }
 })

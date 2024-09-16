@@ -63,9 +63,6 @@
         <image src="/images/service.png" mode="widthFix"/>
       </view>
       <view class="input-wrap v-center">
-        <!-- adjust-position="{{false}}" -->
-        <!-- bindfocus="onFocus" -->
-        <!-- bindkeyboardheightchange="getKeyBoardHeight" -->
         <input
           type="text"
           value="{{inputContent}}"

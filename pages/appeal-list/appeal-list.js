@@ -14,7 +14,12 @@ Page({
   onLoad() {
     this.loadMore()
   },
-  toAppealDetail() {},
+  toAppealDetail(e) {
+    const { content, id } = e.currentTarget.dataset
+    wx.navigateTo({
+      url: `/pages/appeal-submit/appeal-submit?type=appeal&typeId=${id}&content=${content}`,
+    })
+  },
   onReachBottom() {
     if (this.data.isEnd) {
       return
