@@ -8,7 +8,12 @@
         data-id="{{item.typeId}}"
         bind:tap="toAppealSubmit"
       >
-        <image src="{{ item.typeLogo }}" mode="aspectFill"/>
+        <mina-lazy-image
+          image-class="appeal-avatar"
+          placeholder="/images/avatar.png"
+          src="{{item.typeLogo}}"
+          mode="aspectFill"
+        />
         <text>{{ item.typeName }}</text>
       </view>
     </block>

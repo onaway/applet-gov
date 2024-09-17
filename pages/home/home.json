@@ -1,5 +1,8 @@
 {
   "navigationBarBackgroundColor": "#4c94fe",
   "navigationBarTitleText": "i南新",
-  "navigationBarTextStyle": "white"
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "mina-lazy-image": "mina-lazy-image/index"
+  }
 }

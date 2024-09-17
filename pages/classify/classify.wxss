@@ -23,8 +23,8 @@
   margin-right: 0;
 }
 
-.appeal-item image {
-  width: 120rpx;
+.appeal-item .appeal-avatar {
+  width: 120rpx !important;
   height: 120rpx;
   border-radius: 24rpx;
 }

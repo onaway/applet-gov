@@ -6,7 +6,12 @@
       <text>点击登录</text>
     </view>
     <view class="info" wx:else>
-      <image src="{{userInfo.avatarUrl}}" mode="cover"/>
+      <mina-lazy-image
+        image-class="info-avatar"
+        placeholder="/images/avatar.png"
+        src="{{userInfo.avatarUrl}}"
+        mode="cover"
+      />
       <text>{{userInfo.nickName}}</text>
     </view>
     <view class="appeal" bind:tap="toAppealList">

@@ -14,7 +14,7 @@ Page({
     wx.uploadFile({
       filePath: avatarUrl,
       name: 'file',
-      url: baseUrl + '/common/uploadMinio',
+      url: baseUrl + '/mini/uploadAvatar',
       success: res => {
         const data = JSON.parse(res.data)
         console.log('data :', data)
@@ -54,6 +54,22 @@ Page({
   },
   onUnload() {
     const { avatarUrl, nickName } = this.data
+    if (avatarUrl === '/images/avatar.png') {
+      wx.showToast({
+        title: '请上传头像',
+        icon: 'none'
+      })
+      return
+    }
+
+    if (!nickName) {
+      wx.showToast({
+        title: '请输入昵称',
+        icon: 'none'
+      })
+      return
+    }
+
     app.globalData.userInfo = {
       avatarUrl,
       nickName

@@ -21,6 +21,12 @@
   border-radius: 50%;
 }
 
+.info .info-avatar {
+  width: 112rpx !important;
+  height: 112rpx;
+  border-radius: 50%;
+}
+
 .info text {
   font-size: 36rpx;
   line-height: 42rpx;

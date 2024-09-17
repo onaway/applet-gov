@@ -7,7 +7,12 @@
       <text>点击登录</text>
     </view>
     <view class="info" wx:else>
-      <image src="{{userInfo.avatarUrl}}" mode="cover"/>
+      <mina-lazy-image
+        image-class="info-avatar"
+        placeholder="/images/avatar.png"
+        src="{{userInfo.avatarUrl}}"
+        mode="cover"
+      />
       <text>{{userInfo.nickName}}</text>
     </view>
     <view class="main-menu">
@@ -58,7 +63,12 @@
           data-id="{{item.typeId}}"
           bind:tap="toArticleList"
         >
-          <image src="{{ item.typeLogo }}" mode="aspectFill"/>
+          <mina-lazy-image
+            image-class="service-avatar"
+            placeholder="/images/avatar.png"
+            src="{{item.typeLogo}}"
+            mode="aspectFill"
+          />
           <text>{{ item.typeName }}</text>
         </view>
       </block>
