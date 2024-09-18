@@ -28,6 +28,7 @@
   </view>
   <view class="banner">
     <swiper
+      class="swiper"
       indicator-dots="{{false}}"
       autoplay
       circular

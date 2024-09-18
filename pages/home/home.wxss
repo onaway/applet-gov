@@ -84,6 +84,12 @@
   border-radius: 24rpx;
 }
 
+.swiper {
+  height: 260rpx;
+  overflow: hidden;
+  border-radius: 24rpx;
+}
+
 .swiper-item {
   width: 100%;
   height: 260rpx;
