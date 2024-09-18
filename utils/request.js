@@ -1,4 +1,4 @@
-const { getBaseUrl } = require('./baseUrl');
+const { getBaseUrl } = require('./baseUrl')
 
 export const request = (options) => {
   const baseUrl = getBaseUrl()

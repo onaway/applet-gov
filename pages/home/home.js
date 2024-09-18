@@ -36,7 +36,7 @@ Page({
     }
   },
   onLoad() {
-    const token = wx.getStorageSync('token')
+    const token = wx.getStorageSync('token') || ''
     if (token) {
       app.toLogin().then(() => {
         this.setData({

@@ -285,6 +285,15 @@ Page({
           autoList: this.data.autoList
         })
       }
+      if (Array.isArray(res.rows) && !res.rows.length) {
+        const { autoList } = this.data
+        autoList.push(
+          { user: 'nodata', content: '我不太理解您的意思，如有需要请转人工服务' }
+        )
+        this.setData({
+          autoList
+        })
+      }
     }).catch(err => {
       if (err.code === 401) {
         app.toLogin().then(() => {

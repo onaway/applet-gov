@@ -5,7 +5,7 @@ const { queryAppealList } = require('../../api/appeal-list')
 Page({
   data: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     list: [],
     loading: true,
     hasMore: true,

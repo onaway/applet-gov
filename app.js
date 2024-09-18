@@ -16,30 +16,32 @@ App({
 
       wx.login({
         success: (res) => {
-          const params = {
-            code: res.code
-          }
-          if (avatarUrl) {
-            params.avatar = avatarUrl
-          }
-          if (nickName) {
-            params.nickName = nickName
-          }
-          login(params).then(ret => {
-            console.log('app.js ret: ', ret)
-            const { token, userId, nickName, avatar } = ret
-    
-            wx.setStorageSync('token', token)
-            wx.setStorageSync('userId', userId)
-            this.globalData.userId = userId
-            this.globalData.userInfo = {
-              avatarUrl: avatar,
-              nickName
+          if (res.code) {
+            const params = {
+              code: res.code
             }
-
-            resolve()
-          })
-        },
+            if (avatarUrl) {
+              params.avatar = avatarUrl
+            }
+            if (nickName) {
+              params.nickName = nickName
+            }
+            login(params).then(ret => {
+              console.log('app.js ret: ', ret)
+              const { token, userId, nickName, avatar } = ret
+      
+              wx.setStorageSync('token', token)
+              wx.setStorageSync('userId', userId)
+              this.globalData.userId = userId
+              this.globalData.userInfo = {
+                avatarUrl: avatar,
+                nickName
+              }
+  
+              resolve()
+            })
+          }
+        }
       })
     })
   }

@@ -17,7 +17,7 @@
         </view>
         <view class="time other-time">{{item.time}}</view>
       </view>
-      <view class="customer-service" wx:else>已转人工客服</view>
+      <view class="customer-service" wx:else>{{item.content}}</view>
     </block>
     <!-- 诉求和意见内容 -->
     <block wx:for="{{appealList}}" wx:key="order">
