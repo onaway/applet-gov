@@ -10,6 +10,7 @@
         data-status="{{item.appealStatus}}"
         data-content="{{item.content}}"
         data-id="{{item.typeId}}"
+        data-appealid="{{item.appealId}}"
         bind:tap="toAppealDetail"
       >
         <view>

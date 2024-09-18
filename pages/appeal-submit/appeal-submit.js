@@ -34,7 +34,7 @@ Page({
   },
   initData(options) {
     console.log('options: ', options)
-    const { type, typeId, content, status } = options
+    const { type, typeId, content, status, appealId } = options
     const { nickName, avatarUrl } = app.globalData.userInfo
     const userId = wx.getStorageSync('userId')
     let userList = {}
@@ -54,6 +54,7 @@ Page({
       type,
       typeId,
       userList,
+      appealId: appealId ? appealId : '',
       status: status ? status : '',
       isShowPic: type === 'suggestion' || !!content,
       isHuman: !!content

@@ -15,9 +15,9 @@ Page({
     this.loadMore()
   },
   toAppealDetail(e) {
-    const { content, id, status } = e.currentTarget.dataset
+    const { content, id, status, appealid } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/appeal-submit/appeal-submit?type=appeal&typeId=${id}&content=${content}&status=${status}`,
+      url: `/pages/appeal-submit/appeal-submit?type=appeal&typeId=${id}&content=${content}&status=${status}&appealId=${appealid}`,
     })
   },
   onReachBottom() {
