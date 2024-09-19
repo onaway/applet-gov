@@ -39,8 +39,7 @@ export const isTokenExpired = () => {
   
   const currentTime = Date.now()
   const timeDifference = currentTime - tokenTime
-  // const thirtyMinutes = 30 * 60 * 1000 // 30分钟的毫秒数
-  const thirtyMinutes = 1 * 60 * 1000 // 30分钟的毫秒数
+  const thirtyMinutes = 30 * 60 * 1000 // 30分钟的毫秒数
 
   return timeDifference > thirtyMinutes
 }
