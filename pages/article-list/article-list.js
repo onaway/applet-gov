@@ -1,6 +1,7 @@
 // pages/article-list/article-list.js
 const app = getApp()
 const { queryArticleList } = require('../../api/article-list')
+const { isTokenExpired, removeToken } = require('../../utils/util')
 
 Page({
   data: {
@@ -50,19 +51,30 @@ Page({
     })
   },
   toAppealSubmit() {
-    const token = wx.getStorageSync('token')
-    if (!token) {
+    const isRegister = wx.getStorageSync('isRegister') // 是否注册过
+    if (!isRegister) {
       this.toUserInfo()
     } else {
-      const typeId = this.data.list[0].typeId
-      wx.navigateTo({
-        url: `/pages/appeal-submit/appeal-submit?typeId=${typeId}&type=appeal`,
-      })
+      if (isTokenExpired()) {
+        removeToken()
+        console.log('已经登录过，但是 token 过期了，重新登录')
+        app.toLogin().then(() => {
+          this.jumpToAppealSubmit()
+        })
+      } else {
+        this.jumpToAppealSubmit()
+      }
     }
   },
   toUserInfo() {
     wx.navigateTo({
       url: '/pages/userInfo/userInfo',
+    })
+  },
+  jumpToAppealSubmit() {
+    const typeId = this.data.typeId
+    wx.navigateTo({
+      url: `/pages/appeal-submit/appeal-submit?typeId=${typeId}&type=appeal`,
     })
   },
   onReachBottom() {

@@ -1,5 +1,7 @@
 // pages/appeal-classify/appeal-classify.js
+const app = getApp()
 const { queryServiceList } = require('../../api/home')
+const { isTokenExpired, removeToken } = require('../../utils/util')
 
 Page({
   data: {
@@ -36,6 +38,17 @@ Page({
   },
   toAppealSubmit(e) {
     const typeId = e.currentTarget.dataset.id
+    if (isTokenExpired()) {
+      removeToken()
+      console.log('已经登录过，但是 token 过期了，重新登录')
+      app.toLogin().then(() => {
+        this.jumpToAppealSubmit(typeId)
+      })
+    } else {
+      this.jumpToAppealSubmit(typeId)
+    }
+  },
+  jumpToAppealSubmit(typeId) {
     wx.navigateTo({
       url: `/pages/appeal-submit/appeal-submit?typeId=${typeId}&type=${this.data.type}`,
     })

@@ -1,7 +1,7 @@
 // pages/home/home.js
 const app = getApp()
-const { login } = require('../../api/login')
 const { queryBannerList, queryServiceList } = require('../../api/home')
+const { isTokenExpired, removeToken } = require('../../utils/util')
 
 Page({
   data: {
@@ -15,6 +15,7 @@ Page({
   onShow() {
     const { firstLogin, userInfo } = app.globalData
     if (firstLogin) {
+      // 为了让用户信息可以马上显示
       this.setData({
         userInfo,
         hasUserInfo: true
@@ -22,6 +23,7 @@ Page({
       app.globalData.firstLogin = false
 
       app.toLogin().then(() => {
+        // 如果用户信息更新了，那么这里重置一次
         this.setData({
           userInfo: app.globalData.userInfo,
           hasUserInfo: true
@@ -36,16 +38,6 @@ Page({
     }
   },
   onLoad() {
-    const token = wx.getStorageSync('token') || ''
-    if (token) {
-      app.toLogin().then(() => {
-        this.setData({
-          userInfo: app.globalData.userInfo,
-          hasUserInfo: true
-        })
-      })
-    }
-
     this.getBannerList()
 
     this.getServiceList()
@@ -67,21 +59,57 @@ Page({
     })
   },
   toUserInfo() {
+    const isRegister = wx.getStorageSync('isRegister') // 是否注册过
+    if (!isRegister) {
+      this.jumpToUserInfo()
+    } else {
+      if (isTokenExpired()) {
+        removeToken()
+        console.log('已经登录过，但是 token 过期了，重新登录')
+        app.toLogin().then(() => {
+          this.setData({
+            userInfo: app.globalData.userInfo,
+            hasUserInfo: true
+          })
+          wx.showToast({
+            title: '登录成功',
+            icon: 'none'
+          })
+        })
+      }
+    }
+  },
+  jumpToUserInfo() {
     wx.navigateTo({
       url: '/pages/userInfo/userInfo',
     })
   },
   toClassify(e) {
-    const token = wx.getStorageSync('token')
-    if (!token) {
-      this.toUserInfo()
+    const isRegister = wx.getStorageSync('isRegister') // 是否注册过
+    if (!isRegister) {
+      this.jumpToUserInfo()
     } else {
       const type = e.currentTarget.dataset.type
-      console.log('type: ', type)
-      wx.navigateTo({
-        url: `/pages/classify/classify?type=${type}`,
-      })
+      if (isTokenExpired()) {
+        removeToken()
+        console.log('已经登录过，但是 token 过期了，重新登录')
+        app.toLogin().then(() => {
+          this.setData({
+            userInfo: app.globalData.userInfo,
+            hasUserInfo: true
+          })
+          this.jumpToClassify(type)
+        })
+      } else {
+        console.log('toClassify: token is still valid')
+        this.jumpToClassify(type)
+      }
     }
+  },
+  jumpToClassify(type) {
+    wx.navigateTo({
+      url: `/pages/classify/classify?type=${type}`,
+    })
   },
   toBannerDetail(e) {
     const url = e.currentTarget.dataset.url
